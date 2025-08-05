@@ -10,26 +10,21 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class VolaService {
 
   private final RestTemplate restTemplate;
+  private final String apiKey;
 
-  @Value("${api.key}")
-  private String apiKey;
-
-  private final String baseUrl =
-      "https://42cwka3n4ifcp7ufheyrpmph240iuaxo.lambda-url.eu-west-3.on.aws";
-
-  public VolaService(RestTemplate restTemplate) {
+  public VolaService(RestTemplate restTemplate, @Value("${api.key}") String apiKey) {
     this.restTemplate = restTemplate;
+    this.apiKey = apiKey;
   }
 
   public PaymentDto checkPayment(String payerEmail, String pspType, String pspPaymentId) {
-    String url =
-        UriComponentsBuilder.fromHttpUrl(baseUrl + "/payment")
-            .queryParam("apiKey", apiKey)
-            .queryParam("payerEmail", payerEmail)
-            .queryParam("pspType", pspType)
-            .queryParam("pspPaymentId", pspPaymentId)
-            .toUriString();
+    String url = "https://api.vola.mg/payments?"
+            + "apiKey=" + apiKey
+            + "&payerEmail=" + payerEmail
+            + "&pspType=" + pspType
+            + "&pspPaymentId=" + pspPaymentId;
 
-    return restTemplate.getForObject(url, PaymentDto.class);
+    return restTemplate.getForEntity(url, PaymentDto.class).getBody();
   }
 }
+
