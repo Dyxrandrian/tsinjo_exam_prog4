@@ -26,4 +26,11 @@ public class Payment {
 
     @Column(nullable = false)
     private String paymentReference;
+
+    @Column(nullable = false)
+    private String pspType;
+
+    @Column(nullable = false)
+    private String pspPaymentId;
+
 }
