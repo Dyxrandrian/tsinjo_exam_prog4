@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class ApplicationDto {
-    private String name;
-    private String apiKey;
+  private String name;
+  private String apiKey;
 }

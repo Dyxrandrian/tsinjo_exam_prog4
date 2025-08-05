@@ -4,39 +4,38 @@ import com.hei.school.model.Aid;
 import com.hei.school.model.Beneficiary;
 import com.hei.school.repository.AidRepository;
 import com.hei.school.repository.BeneficiaryRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class AidService {
 
-    private final AidRepository aidRepository;
-    private final BeneficiaryRepository beneficiaryRepository;
+  private final AidRepository aidRepository;
+  private final BeneficiaryRepository beneficiaryRepository;
 
-    public List<Aid> getAllAidsSorted() {
-        return aidRepository.findAllOrderByPaymentDateDesc();
+  public List<Aid> getAllAidsSorted() {
+    return aidRepository.findAllOrderByPaymentDateDesc();
+  }
+
+  public Aid saveAid(Aid aid) {
+    String email = aid.getBeneficiary().getEmail();
+    Beneficiary beneficiary = beneficiaryRepository.findByEmail(email).orElse(null);
+
+    if (beneficiary == null) {
+      beneficiary = aid.getBeneficiary();
+      beneficiary = beneficiaryRepository.save(beneficiary);
     }
 
-    public Aid saveAid(Aid aid) {
-        String email = aid.getBeneficiary().getEmail();
-        Beneficiary beneficiary = beneficiaryRepository.findByEmail(email).orElse(null);
+    aid.setBeneficiary(beneficiary);
 
-        if (beneficiary == null) {
-            beneficiary = aid.getBeneficiary();
-            beneficiary = beneficiaryRepository.save(beneficiary);
-        }
+    return aidRepository.save(aid);
+  }
 
-        aid.setBeneficiary(beneficiary);
-
-        return aidRepository.save(aid);
-    }
-
-    public Double getTotalAidAmount() {
-        return aidRepository.getTotalAidAmount();
-    }
+  public Double getTotalAidAmount() {
+    return aidRepository.getTotalAidAmount();
+  }
 }

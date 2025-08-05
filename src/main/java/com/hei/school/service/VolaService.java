@@ -9,25 +9,27 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Service
 public class VolaService {
 
-    private final RestTemplate restTemplate;
+  private final RestTemplate restTemplate;
 
-    @Value("${api.key}")
-    private String apiKey;
+  @Value("${api.key}")
+  private String apiKey;
 
-    private final String baseUrl = "https://42cwka3n4ifcp7ufheyrpmph240iuaxo.lambda-url.eu-west-3.on.aws";
+  private final String baseUrl =
+      "https://42cwka3n4ifcp7ufheyrpmph240iuaxo.lambda-url.eu-west-3.on.aws";
 
-    public VolaService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
+  public VolaService(RestTemplate restTemplate) {
+    this.restTemplate = restTemplate;
+  }
 
-    public PaymentDto checkPayment(String payerEmail, String pspType, String pspPaymentId) {
-        String url = UriComponentsBuilder.fromHttpUrl(baseUrl + "/payment")
-                .queryParam("apiKey", apiKey)
-                .queryParam("payerEmail", payerEmail)
-                .queryParam("pspType", pspType)
-                .queryParam("pspPaymentId", pspPaymentId)
-                .toUriString();
+  public PaymentDto checkPayment(String payerEmail, String pspType, String pspPaymentId) {
+    String url =
+        UriComponentsBuilder.fromHttpUrl(baseUrl + "/payment")
+            .queryParam("apiKey", apiKey)
+            .queryParam("payerEmail", payerEmail)
+            .queryParam("pspType", pspType)
+            .queryParam("pspPaymentId", pspPaymentId)
+            .toUriString();
 
-        return restTemplate.getForObject(url, PaymentDto.class);
-    }
+    return restTemplate.getForObject(url, PaymentDto.class);
+  }
 }

@@ -10,15 +10,15 @@ import lombok.*;
 @AllArgsConstructor
 public class Donation {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "donor_id", nullable = false)
-    private Donor donor;
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "donor_id", nullable = false)
+  private Donor donor;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "payment_id", nullable = false)
-    private Payment payment;
+  @OneToOne(cascade = CascadeType.ALL, optional = false)
+  @JoinColumn(name = "payment_id", nullable = false)
+  private Payment payment;
 }
