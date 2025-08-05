@@ -2,7 +2,6 @@ package com.hei.school.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "donations")
@@ -15,22 +14,11 @@ public class Donation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "aid_id", nullable = false)
-    private Aid aid;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "donor_id", nullable = false)
+    private Donor donor;
 
-    @Column(nullable = false)
-    private String donorEmail;
-
-    @Column(nullable = false)
-    private String donorFullName;
-
-    @Column(nullable = false)
-    private Double amount;
-
-    @Column(nullable = false)
-    private String paymentMethod;
-
-    @Column(nullable = false)
-    private LocalDate paymentDate;
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "payment_id", nullable = false)
+    private Payment payment;
 }
