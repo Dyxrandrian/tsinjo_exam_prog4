@@ -1,36 +1,123 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Tsinjo - Donation</title>
     <meta charset="UTF-8" />
+    <title>Tsinjo - Donation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f9;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        main {
+            max-width: 600px;
+            margin: 2rem auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        h1, h2 {
+            color: #2c3e50;
+        }
+
+        form div {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+
+        input[type="email"],
+        input[type="text"] {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #2980b9;
+            color: white;
+            padding: 0.7rem 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #3498db;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            background-color: #ecf0f1;
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 600px) {
+            main {
+                margin: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-<h1>Make a Donation</h1>
 
-<form th:action="@{/donations}" th:object="${donationForm}" method="post">
-    <div>
-        <label for="donorEmail">Email:</label>
-        <input type="email" id="donorEmail" th:field="*{donor.email}" required />
-    </div>
-    <div>
-        <label for="paymentMethod">Payment Method:</label>
-        <input type="text" id="paymentMethod" th:field="*{payment.paymentMethod}" required />
-    </div>
-    <div>
-        <label for="paymentReference">Payment Reference:</label>
-        <input type="text" id="paymentReference" th:field="*{payment.paymentReference}" required />
-    </div>
-    <button type="submit">Donate</button>
-</form>
+<header>
+    <h1>Tsinjo - Faire un Don</h1>
+</header>
 
-<h2>Historique des dons</h2>
-<ul>
-    <li th:each="donation : ${donations}">
-        <span th:text="${donation.payment.amount} + ' Ar (confirmé, ' + donation.payment.paymentMethod + ') ' + #temporals.format(donation.payment.paymentDate, 'dd/MM/yyyy') + ', Par ' + donation.donor.fullName + ' (' + donation.donor.email + ')'">
-            Exemple de ligne
-        </span>
-    </li>
-</ul>
+<main>
+    <form th:action="@{/donations}" th:object="${donationForm}" method="post">
+        <div>
+            <label for="donorEmail">Adresse email</label>
+            <input type="email" id="donorEmail" th:field="*{donor.email}" placeholder="ex: exemple@email.com" required />
+        </div>
+
+        <div>
+            <label for="paymentMethod">Méthode de paiement</label>
+            <input type="text" id="paymentMethod" th:field="*{payment.paymentMethod}" placeholder="ex: ORANGE_MONEY" required />
+        </div>
+
+        <div>
+            <label for="paymentReference">Référence de paiement</label>
+            <input type="text" id="paymentReference" th:field="*{payment.paymentReference}" placeholder="ex: REF123456" required />
+        </div>
+
+        <button type="submit">Envoyer le don</button>
+    </form>
+
+    <h2>Historique des dons</h2>
+    <ul>
+        <li th:each="donation : ${donations}">
+            <span th:text="${donation.payment.amount} + ' Ar (confirmé, ' + donation.payment.paymentMethod + ') le ' + #temporals.format(donation.payment.paymentDate, 'dd/MM/yyyy') + ', par ' + donation.donor.fullName + ' (' + donation.donor.email + ')'">
+                Exemple de ligne
+            </span>
+        </li>
+    </ul>
+</main>
 
 </body>
 </html>
