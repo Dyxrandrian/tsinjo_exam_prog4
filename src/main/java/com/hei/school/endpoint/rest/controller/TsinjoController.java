@@ -1,7 +1,6 @@
-package com.hei.school.controller;
+package com.hei.school.endpoint.rest.controller;
 
 import com.hei.school.model.Donation;
-import com.hei.school.model.Aid;
 import com.hei.school.service.DonationService;
 import com.hei.school.service.AidService;
 import lombok.RequiredArgsConstructor;

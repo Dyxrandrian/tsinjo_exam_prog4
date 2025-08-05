@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Tsinjo - Donation</title>
+    <meta charset="UTF-8" />
+</head>
+<body>
+<h1>Make a Donation</h1>
+
+<form th:action="@{/donations}" th:object="${donationForm}" method="post">
+    <div>
+        <label for="donorEmail">Email:</label>
+        <input type="email" id="donorEmail" th:field="*{donor.email}" required />
+    </div>
+    <div>
+        <label for="paymentMethod">Payment Method:</label>
+        <input type="text" id="paymentMethod" th:field="*{payment.paymentMethod}" required />
+    </div>
+    <div>
+        <label for="paymentReference">Payment Reference:</label>
+        <input type="text" id="paymentReference" th:field="*{payment.paymentReference}" required />
+    </div>
+    <button type="submit">Donate</button>
+</form>
+
+<h2>Historique des dons</h2>
+<ul>
+    <li th:each="donation : ${donations}">
+        <span th:text="${donation.payment.amount} + ' Ar (confirmé, ' + donation.payment.paymentMethod + ') ' + #temporals.format(donation.payment.paymentDate, 'dd/MM/yyyy') + ', Par ' + donation.donor.fullName + ' (' + donation.donor.email + ')'">
+            Exemple de ligne
+        </span>
+    </li>
+</ul>
+
+</body>
+</html>

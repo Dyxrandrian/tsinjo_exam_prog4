@@ -23,4 +23,7 @@ public class Payment {
 
     @Column(nullable = false)
     private LocalDate paymentDate;
+
+    @Column(nullable = false)
+    private String paymentReference;
 }
